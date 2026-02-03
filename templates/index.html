@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oooh+Baby&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Boogaloo&display=swap" rel="stylesheet">
+    
+    <title>Be My Valentine 💘</title>
+    
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center; /* horizontal centering */
+            align-items: center;     /* vertical centering */
+            background-color: #ffe6eb;
+            font-family: 'Oooh Baby', cursive; /* all text uses Oooh Baby by default */
+            text-align: center;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column; /* stack elements vertically */
+            align-items: center;    /* horizontal center */
+            justify-content: center;
+        }
+
+        #message, #message2 {
+            font-size: 40px; /* adjust as needed */
+            margin: 5px 0;
+            color: #d32f8b;  /* optional Valentine color */
+        }
+
+        img {
+            /* width: 250px; */
+            border-radius: 20px;
+            margin: 20px 0;
+        }
+
+        buttons {
+            display: flex;
+            flex-direction: column; /* stack buttons vertically */
+            gap: 15px;              /* space between buttons */
+            align-items: center;     /* center buttons horizontally */
+            margin-top: 20px;        /* optional spacing from image/text */
+            
+        }
+            
+        
+
+        .buttons button {
+            font-family: "Boogaloo", sans-serif;
+            font-size: 20px;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            /* width: 150px;    */
+
+        }
+
+        #yesBtn {
+            background-color: #ff4d6d;
+            color: white;
+        }
+
+        #noBtn {
+            background-color: #999;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+    <h1 id="message">Dear Ilhan Nazmi ❣️</h1>
+    <h1 id="message2">Will you be my Valentine? 💖</h1>
+
+    <img id="valentineImg" src="{{ url_for('static', filename='white_cat_text.jpg') }}" alt="Valentine" width="250">
+
+    <div class="buttons">
+      <button id="yesBtn" onclick="yesClicked()">Yes 💘</button>
+      <button id="noBtn" onclick="noClicked()">No 💔</button>
+    </div>
+  </div>
+
+    <script>
+    const maxNoClicks = 7; // max number of times "No" can be clicked
+
+    let noTexts = [
+        "WDYM No? 💔",
+        "Are you sure? 🥺",
+        "Really? 😢",
+        "Please don’t 😭",
+        "Come onnn 💔",
+        "Last chance 🥹",
+        "Okay fine… 😩"
+    ];
+
+    // Images inside static folder
+    let images = [
+        "{{ url_for('static', filename='white_cat_text.jpg') }}",
+        "{{ url_for('static', filename='cat_love_background.jpg') }}",
+        "{{ url_for('static', filename='white_cat_ring.jpg') }}",
+        "{{ url_for('static', filename='black_cat_flowers.jpg') }}",
+        "{{ url_for('static', filename='black_cat.jpg') }}",
+        "{{ url_for('static', filename='cat_heart.jpg') }}",
+        "{{ url_for('static', filename='cat_hiding.jpg') }}",
+        "{{ url_for('static', filename='cat_rose.jpg') }}"
+    ];
+
+    let clickCount = 0;
+    let yesSize = 20;
+    let noSize = 20;
+
+    function noClicked() {
+        const noBtn = document.getElementById("noBtn");
+        const yesBtn = document.getElementById("yesBtn");
+        const img = document.getElementById("valentineImg");
+
+        // Stop after max clicks
+        if (clickCount >= maxNoClicks) {
+            noBtn.innerText = "Too late 😈";
+            noBtn.disabled = true;
+            noBtn.style.display = "none";
+            return;
+        }
+
+        // Change text inside NO button
+        noBtn.innerText = noTexts[clickCount];
+
+        // Change image
+        if (clickCount < images.length) {
+            img.src = images[clickCount];
+        }
+
+        clickCount++;
+
+        // YES button grows
+        yesSize += 10;
+        yesBtn.style.fontSize = yesSize + "px";
+
+        // NO button shrinks
+        noSize -= 2;
+        noBtn.style.fontSize = noSize + "px";
+
+        // Hide NO button if too small
+        if (noSize <= 5) {
+            noBtn.style.display = "none";
+        }
+    }
+
+    function yesClicked() {
+    document.body.innerHTML = `
+        <div style="
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            background-color: #ffe6eb;
+            font-family: 'Oooh Baby', cursive;
+        ">
+            <h1>YAYYYY 💖💖💖</h1>
+            <h2>Happy Valentine’s Day my Babyyy 😘</h2>
+            <img src="{{ url_for('static', filename='cat_love_background.jpg') }}" 
+                 style="margin-top: 20px; max-width: 80%; border-radius: 20px;">
+        </div>
+    `;
+    }
+    </script>
+
+
+
+
+</body>
+</html>
